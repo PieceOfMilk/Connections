@@ -1,0 +1,18 @@
+#tile-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Adjust based on number of columns */
+    gap: 10px;
+    padding: 20px;
+}
+
+.tile {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.tile.active {
+    background-color: #add8e6; /* Highlight color when active */
+}
