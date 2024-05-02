@@ -1,11 +1,9 @@
-$(document).ready(function() {
-    var clickedTiles = [];
-    const g1 = ["dreamcast", "genesis", "switch", "wii"];
-    const g2 = ["bounty", "crunch", "heath", "milky_way"];
-    const g3 = ["anvil", "cochlea", "hammer", "stirrup"];
-    const g4 = ["blink", "maroon", "sum", "u"];
+var clickedTiles = [];
+let gameNum = 1;
 
-    $('.tile').click(function() {
+$(document).ready(function() {
+    // Use event delegation for dynamically added elements
+    $('#tile-container').on('click', '.tile', function() {
         var tileId = $(this).attr('id');
 
         // Toggle active class and add/remove from array
@@ -19,40 +17,54 @@ $(document).ready(function() {
 
         console.log(clickedTiles); // Output to console for verification
     });
-    
+
     $("#submit").click(() => {
         if (clickedTiles.length !== 4){
             alert("please select 4 tiles");
-        }else {
-            if (areEqual(clickedTiles, g1)) {
-                console.log("Correct, You solved g1");
-            }else if (areEqual(clickedTiles, g2)) {
-                console.log("Correct, You solved g2");
-            }else if (areEqual(clickedTiles, g3)) {
-                console.log("Correct, You solved g3");
-            }else if (areEqual(clickedTiles, g4)) {
-                console.log("Correct, You solved g4");
-            }else{
-                console.log("Incorrect");
-            }
+        } else {
+            $.ajax("/submit", {
+                type: "GET",
+                processData: true,
+                data: { clicked: clickedTiles },
+                dataType: "json",
+                success: function (res) {
+                    console.log(res);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("Error: " + jqXHR.responseText);
+                    alert("Error: " + textStatus);
+                    alert("Error: " + errorThrown);
+                }
+            });
         }
     });
-    
 });
 
-function areEqual(arr1, arr2){
-    const set1 = new Set(arr1);
-    const set2 = new Set(arr2);
 
-    if (set1.size !== set2.size) {
-        return false;
-    }
-
-    for (let item of set1) {
-        if (!set2.has(item)) {
-            return false;
-        }
-    }
-
-    return true;
+function displayGrid(tiles) {
+    $("#tile-container").empty();
+    tiles.forEach((x) => {
+      $("#tile-container").append(`<div class="tile" id="${x}">${x}</div>`);
+    });
 }
+
+function init() {
+    $.ajax("/load", {
+        type: "GET",
+        processData: true,
+        data: { num: gameNum },
+        dataType: "json",
+        success: function (tiles) {
+            displayGrid(tiles);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("Error: " + jqXHR.responseText);
+            alert("Error: " + textStatus);
+            alert("Error: " + errorThrown);
+        }
+    });
+}
+
+$( () => {
+    init();
+});
