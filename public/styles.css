@@ -16,3 +16,7 @@
 .tile.active {
     background-color: #add8e6; /* Highlight color when active */
 }
+
+.tile.solved {
+    background-color: #add8e6;
+}

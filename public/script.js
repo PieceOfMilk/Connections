@@ -28,6 +28,11 @@ $(document).ready(function() {
                 data: { clicked: clickedTiles },
                 dataType: "json",
                 success: function (res) {
+                    if (res !== "Incorrect"){
+                        $(".active").addClass('solved');
+                        $(".active").removeClass('solved');
+                        clickedTiles = [];
+                    }
                     console.log(res);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
