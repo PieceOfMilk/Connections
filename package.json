@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^5.3.3",
+    "canvas-confetti": "^1.9.3",
     "express": "^4.19.2"
   }
 }

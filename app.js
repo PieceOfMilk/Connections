@@ -7,12 +7,12 @@ let gameNum;
 app.use(express.static('public'));
 
 const g1Words = ["dreamcast", "genesis", "switch", "wii", 
-                 "bounty", "crunch", "heath", "milky_way", 
+                 "bounty", "crunch", "heath", "milkyway", 
                  "anvil", "cochlea", "hammer", "stirrup", 
                  "blink", "maroon", "sum", "u"];
 
 const g1Answers = [["Game Consoles", "dreamcast", "genesis", "switch", "wii"], 
-                   ["Candy Bars", "bounty", "crunch", "heath", "milky_way"], 
+                   ["Candy Bars", "bounty", "crunch", "heath", "milkyway"], 
                    ["Parts of the Ear", "anvil", "cochlea", "hammer", "stirrup"], 
                    ["Band Names With a Word Missing", "blink", "maroon", "sum", "u"]];
 

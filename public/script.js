@@ -1,3 +1,4 @@
+
 var clickedTiles = [];
 var solved = [];
 let gameNum = 1;
@@ -17,12 +18,15 @@ $(document).ready(function() {
             clickedTiles.push(tileId);
         }
 
-        console.log(clickedTiles); // Output to console for verification
+        console.log(clickedTiles); 
     });
 
     $("#submit").click(() => {
         if (clickedTiles.length !== 4){
-            alert("please select 4 tiles");
+            var myModal = new bootstrap.Modal(document.getElementById('choose4Modal'), {
+                keyboard: false
+            });
+            myModal.show();
         } else {
             $.ajax("/submit", {
                 type: "GET",
@@ -190,6 +194,10 @@ function init(callback) {
                     keyboard: false
                 });
                 myModal.show();
+                confetti({
+                    particleCount: 150,
+                    spread: 180
+                });
             }
     
             if (callback) {
