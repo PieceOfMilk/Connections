@@ -61,6 +61,7 @@ $(document).ready(function() {
                                 keyboard: false
                             });
                             myModal.show();
+                            $("#submit").prop('disabled', true);
                         }
 
                     }
@@ -94,6 +95,7 @@ $(document).ready(function() {
                 $("#prev").prop('disabled', false);
                 $("#next").prop('disabled', false);
             }
+            $("#submit").prop('disabled', false);
         }
     });
     
@@ -116,6 +118,7 @@ $(document).ready(function() {
             $("#next").prop('disabled', false);
             $("#prev").prop('disabled', false);
         }
+        $("#submit").prop('disabled', false);
     });
 });
 
