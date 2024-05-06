@@ -1,6 +1,7 @@
 var clickedTiles = [];
 var solved = [];
 let gameNum = 1;
+let triesLeft = 4;
 
 $(document).ready(function() {
     // Use event delegation for dynamically added elements
@@ -41,9 +42,24 @@ $(document).ready(function() {
                                 }
                             })
                             updateSolved(solved);
+                            $("#submit").removeClass(`btn-primary`);
+                            $("#submit").removeClass(`btn-danger`);
+                            $("#submit").addClass(`btn-success`);
                         });
+                    }else {
+                        triesLeft--; 
+                        $("#tries").empty(); 
+                        $("#tries").append(`<p>Tries: ${triesLeft}</p>`);
+                        $("#submit").removeClass(`btn-primary`);
+                        $("#submit").addClass(`btn-danger`);
+                        if (triesLeft === 0) {
+                            var myModal = new bootstrap.Modal(document.getElementById('loseModal'), {
+                                keyboard: false
+                            });
+                            myModal.show();
+                        }
+
                     }
-                    console.log(res);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     alert("Error: " + jqXHR.responseText);
@@ -59,6 +75,21 @@ $(document).ready(function() {
             gameNum--;
             console.log(gameNum);
             switchGrid();
+            clickedTiles = [];
+
+            triesLeft = 4;
+            $("#tries").empty(); 
+            $("#tries").append(`<p>Tries: ${triesLeft}</p>`);
+            $("#submit").removeClass(`btn-success`);
+            $("#submit").removeClass(`btn-danger`);
+            $("#submit").addClass(`btn-primary`);
+
+            if(gameNum === 1){
+                $("#prev").prop('disabled', true);
+            }else {
+                $("#prev").prop('disabled', false);
+                $("#next").prop('disabled', false);
+            }
         }
     });
     
@@ -66,6 +97,21 @@ $(document).ready(function() {
         gameNum++;
         console.log(gameNum);
         switchGrid();
+        clickedTiles = [];
+
+        triesLeft = 4;
+        $("#tries").empty(); 
+        $("#tries").append(`<p>Tries: ${triesLeft}</p>`);
+        $("#submit").removeClass(`btn-success`);
+        $("#submit").removeClass(`btn-danger`);
+        $("#submit").addClass(`btn-primary`);
+
+        if(gameNum === 3){
+            $("#next").prop('disabled', true);
+        }else {
+            $("#next").prop('disabled', false);
+            $("#prev").prop('disabled', false);
+        }
     });
 });
 
@@ -140,7 +186,10 @@ function init(callback) {
             displayGrid(answerTiles, tiles); 
 
             if (tiles.length === 0) {
-                alert("Congrats, You Won!!");
+                var myModal = new bootstrap.Modal(document.getElementById('winModal'), {
+                    keyboard: false
+                });
+                myModal.show();
             }
     
             if (callback) {
