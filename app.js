@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 let solvedTiles = [];
-let answerGrid = [];
 let gameNum;
 
 
@@ -78,7 +77,6 @@ app.get("/submit", (req, res) => {
                 }
             });
             console.log(solvedTiles);
-            console.log(answerGrid);
             res.json(responseText);
         case "2":
             g2Answers.forEach(group => {
@@ -95,7 +93,6 @@ app.get("/submit", (req, res) => {
                 }
             });
             console.log(solvedTiles);
-            console.log(answerGrid);
             res.json(responseText);
     }
 });

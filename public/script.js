@@ -21,37 +21,35 @@ $(document).ready(function() {
 
     $("#submit").click(() => {
         if (clickedTiles.length !== 4){
-            alert("Please select 4 tiles");
+            alert("please select 4 tiles");
         } else {
             $.ajax("/submit", {
-                type: "GET", // Consider changing to "POST" if modifying data on the server
+                type: "GET",
                 processData: true,
                 data: { clicked: clickedTiles },
                 dataType: "json",
                 success: function (res) {
-                    if (res !== "Incorrect") {
+                    if (res !== "Incorrect"){
                         init(() => { // Ensure this runs after the grid is reloaded
-                            // Empty the solved array first if it's being reused
-                            solved = [];
                             clickedTiles.forEach(answer => {
-                                solved.push(answer);
-                            });
-                            clickedTiles = []; // Clear clickedTiles after processing
-                            solved.forEach(tile => {
-                                const $tile = $(`#${tile}`);
+                                const $tile = $(`#${answer}`);
                                 $tile.addClass('solved');
-    
-                                // Create and show the overlay with category name
+
+                                // Check if the overlay div exists, if not, create it
                                 if (!$tile.children('.tile-overlay').length) {
                                     $tile.append(`<div class="tile-overlay">${res}</div>`);
                                 }
-                                $tile.children('.tile-overlay').show();
-    
-                                console.log(`'solved' class added to: #${tile}`);
+
+                                // Show the overlay
+                                $tile.find('.tile-overlay').show();
+                                solved.push(answer);
                             });
+                            clickedTiles = [];
+                            solved.forEach(tile => {
+                                $(`#${tile}`).addClass('solved');
+                                console.log(`'solved' class added to: #${tile}`);
+                            })
                         });
-                    } else {
-                        console.log("Response was 'Incorrect'.");
                     }
                     console.log(res);
                 },
@@ -63,12 +61,13 @@ $(document).ready(function() {
             });
         }
     });
-    
 
     $("#prev").click(() => {
-        gameNum--;
-        console.log(gameNum);
-        switchGrid();
+        if (gameNum - 1 > 0){
+            gameNum--;
+            console.log(gameNum);
+            switchGrid();
+        }
     });
     
     $("#next").click(() => {
