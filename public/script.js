@@ -31,24 +31,16 @@ $(document).ready(function() {
                 success: function (res) {
                     if (res !== "Incorrect"){
                         init(() => { // Ensure this runs after the grid is reloaded
-                            clickedTiles.forEach(answer => {
-                                const $tile = $(`#${answer}`);
-                                $tile.addClass('solved');
-
-                                // Check if the overlay div exists, if not, create it
-                                if (!$tile.children('.tile-overlay').length) {
-                                    $tile.append(`<div class="tile-overlay">${res}</div>`);
-                                }
-
-                                // Show the overlay
-                                $tile.find('.tile-overlay').show();
-                                solved.push(answer);
-                            });
+                            solved.push(res);
                             clickedTiles = [];
-                            solved.forEach(tile => {
-                                $(`#${tile}`).addClass('solved');
-                                console.log(`'solved' class added to: #${tile}`);
+                            solved.forEach(answerRow => {
+                                for (let i = 0; i < answerRow.length; i++){
+                                    if (i !== 0){
+                                        $(`#${answerRow[i]}`).addClass('solved');
+                                    }
+                                }
                             })
+                            updateSolved(solved);
                         });
                     }
                     console.log(res);
@@ -77,6 +69,27 @@ $(document).ready(function() {
     });
 });
 
+function updateSolved(solvedTitles){
+    let category;
+    solvedTitles.forEach(answerArr => {
+        for (let i = 0; i < answerArr.length; i++){
+            if (i == 0){
+                category = answerArr[0];
+            }else {
+                const $tile = $(`#${answerArr[i]}`);
+                $tile.addClass('solved');
+
+                // Check if the overlay div exists, if not, create it
+                if (!$tile.children('.tile-overlay').length) {
+                    $tile.append(`<div class="tile-overlay">${category}</div>`);
+                }
+
+                // Show the overlay
+                $tile.find('.tile-overlay').show();
+            }
+        }
+    });
+}
 
 function displayGrid(answerTiles, tiles) {
     const container = $("#tile-container"); // Proper definition of the container variable
@@ -125,6 +138,10 @@ function init(callback) {
             const tiles = response.currentGrid;
             
             displayGrid(answerTiles, tiles); 
+
+            if (tiles.length === 0) {
+                alert("Congrats, You Won!!");
+            }
     
             if (callback) {
                 callback(); 

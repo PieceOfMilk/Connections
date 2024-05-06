@@ -73,7 +73,7 @@ app.get("/submit", (req, res) => {
         
                     currentGrid = currentGrid.filter(tile => !solvedTiles.includes(tile));
                     
-                    responseText = group[0]; // Send back the category name as confirmation
+                    responseText = group; 
                 }
             });
             console.log(solvedTiles);
@@ -89,7 +89,7 @@ app.get("/submit", (req, res) => {
         
                     currentGrid = currentGrid.filter(tile => !solvedTiles.includes(tile));
                     
-                    responseText = group[0]; // Send back the category name as confirmation
+                    responseText = group; 
                 }
             });
             console.log(solvedTiles);
