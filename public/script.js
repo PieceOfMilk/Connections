@@ -1,4 +1,5 @@
 var clickedTiles = [];
+var solved = [];
 let gameNum = 1;
 
 $(document).ready(function() {
@@ -20,18 +21,37 @@ $(document).ready(function() {
 
     $("#submit").click(() => {
         if (clickedTiles.length !== 4){
-            alert("please select 4 tiles");
+            alert("Please select 4 tiles");
         } else {
             $.ajax("/submit", {
-                type: "GET",
+                type: "GET", // Consider changing to "POST" if modifying data on the server
                 processData: true,
                 data: { clicked: clickedTiles },
                 dataType: "json",
                 success: function (res) {
-                    if (res !== "Incorrect"){
-                        $(".active").addClass('solved');
-                        $(".active").removeClass('solved');
-                        clickedTiles = [];
+                    if (res !== "Incorrect") {
+                        init(() => { // Ensure this runs after the grid is reloaded
+                            // Empty the solved array first if it's being reused
+                            solved = [];
+                            clickedTiles.forEach(answer => {
+                                solved.push(answer);
+                            });
+                            clickedTiles = []; // Clear clickedTiles after processing
+                            solved.forEach(tile => {
+                                const $tile = $(`#${tile}`);
+                                $tile.addClass('solved');
+    
+                                // Create and show the overlay with category name
+                                if (!$tile.children('.tile-overlay').length) {
+                                    $tile.append(`<div class="tile-overlay">${res}</div>`);
+                                }
+                                $tile.children('.tile-overlay').show();
+    
+                                console.log(`'solved' class added to: #${tile}`);
+                            });
+                        });
+                    } else {
+                        console.log("Response was 'Incorrect'.");
                     }
                     console.log(res);
                 },
@@ -43,24 +63,49 @@ $(document).ready(function() {
             });
         }
     });
+    
+
+    $("#prev").click(() => {
+        gameNum--;
+        console.log(gameNum);
+        switchGrid();
+    });
+    
+    $("#next").click(() => {
+        gameNum++;
+        console.log(gameNum);
+        switchGrid();
+    });
 });
 
 
-function displayGrid(tiles) {
-    $("#tile-container").empty();
-    tiles.forEach((x) => {
-      $("#tile-container").append(`<div class="tile" id="${x}">${x}</div>`);
+function displayGrid(answerTiles, tiles) {
+    const container = $("#tile-container"); // Proper definition of the container variable
+    container.empty(); // Clear existing content
+    
+    answerTiles.forEach((x) => {
+        container.append(`<div class="tile solved" id="${x}">${x}</div>`); 
+
     });
+    tiles.forEach((x) => {
+        container.append(`<div class="tile" id="${x}">${x}</div>`); 
+
+    });
+    
+    console.log(container.html()); // Log the HTML of the container
 }
 
-function init() {
-    $.ajax("/load", {
+function switchGrid() {
+    $.ajax("/switch", {
         type: "GET",
         processData: true,
         data: { num: gameNum },
         dataType: "json",
-        success: function (tiles) {
-            displayGrid(tiles);
+        success: function (response) {
+            const answerTiles = response.answerGrid;
+            const tiles = response.currentGrid;
+            
+            displayGrid(answerTiles, tiles); 
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert("Error: " + jqXHR.responseText);
@@ -68,6 +113,31 @@ function init() {
             alert("Error: " + errorThrown);
         }
     });
+}
+
+function init(callback) {
+    $.ajax("/load", {
+        type: "GET",
+        processData: true,
+        data: { num: gameNum },
+        dataType: "json",
+        success: function (response) {
+            const answerTiles = response.answerGrid;
+            const tiles = response.currentGrid;
+            
+            displayGrid(answerTiles, tiles); 
+    
+            if (callback) {
+                callback(); 
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("Error: " + jqXHR.responseText);
+            alert("Error: " + textStatus);
+            alert("Error: " + errorThrown);
+        }
+    });
+    
 }
 
 $( () => {
