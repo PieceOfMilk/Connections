@@ -50,3 +50,9 @@ body {
     display: none; /* Hidden by default */
 }
 
+h1 {
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-weight: 900;
+    font-style: normal;
+}
