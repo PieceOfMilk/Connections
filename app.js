@@ -6,22 +6,22 @@ let gameNum;
 
 app.use(express.static('public'));
 
-const g1Words = ["dreamcast", "genesis", "switch", "wii", 
-                 "bounty", "crunch", "heath", "milkyway", 
-                 "anvil", "cochlea", "hammer", "stirrup", 
-                 "blink", "maroon", "sum", "u"];
+const g2Words = ["shadow", "bud", "kitty", "fuzz", 
+                 "dark", "whiskers", "pot", "cold", 
+                 "pool", "dank", "mate", "fund", 
+                 "chum", "scruff", "musty", "pal"];
 
-const g1Answers = [["Game Consoles", "dreamcast", "genesis", "switch", "wii"], 
-                   ["Candy Bars", "bounty", "crunch", "heath", "milkyway"], 
-                   ["Parts of the Ear", "anvil", "cochlea", "hammer", "stirrup"], 
-                   ["Band Names With a Word Missing", "blink", "maroon", "sum", "u"]];
+const g2Answers = [["Slang for friend", "bud", "chum", "mate", "pal"],
+                   ["Adjective for a basement", "cold", "dark", "dank", "musty"],
+                   ["Collection of money", "fund", "kitty", "pool", "pot"],
+                   ["Stubble", "fuzz", "scruff", "shadow", "whiskers"]];
 
-const g2Words = ["tab", "joke", "sketch", "plasma",
+const g1Words = ["tab", "joke", "sketch", "plasma",
                  "bookmark", "routine", "liquid", "spot",
                  "window", "bit", "solid", "splash",
                  "history", "gas", "drop", "sprinkle"];
 
-const g2Answers = [["States of Matter", "gas", "liquid", "plasma", "solid"],
+const g1Answers = [["States of Matter", "gas", "liquid", "plasma", "solid"],
                    ["Web Browser-Ralated", "bookmark", "history", "tab", "window"],
                    ["Little Bit of a Beverage", "drop", "splash", "spot", "sprinkle"],
                    ["Comedian's Output", "bit", "joke", "routine", "sketch"]];

@@ -53,7 +53,7 @@ $(document).ready(function() {
                     }else {
                         triesLeft--; 
                         $("#tries").empty(); 
-                        $("#tries").append(`<p>Tries: ${triesLeft}</p>`);
+                        $("#tries").append(`<p>Mistakes remaining: ${triesLeft}</p>`);
                         $("#submit").removeClass(`btn-primary`);
                         $("#submit").addClass(`btn-danger`);
                         if (triesLeft === 0) {
