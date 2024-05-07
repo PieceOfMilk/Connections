@@ -84,7 +84,7 @@ $(document).ready(function() {
 
             triesLeft = 4;
             $("#tries").empty(); 
-            $("#tries").append(`<p>Tries: ${triesLeft}</p>`);
+            $("#tries").append(`<p>Mistakes remaining: ${triesLeft}</p>`);
             $("#submit").removeClass(`btn-success`);
             $("#submit").removeClass(`btn-danger`);
             $("#submit").addClass(`btn-primary`);
@@ -107,7 +107,7 @@ $(document).ready(function() {
 
         triesLeft = 4;
         $("#tries").empty(); 
-        $("#tries").append(`<p>Tries: ${triesLeft}</p>`);
+        $("#tries").append(`<p>Mistakes remaining: ${triesLeft}</p>`);
         $("#submit").removeClass(`btn-success`);
         $("#submit").removeClass(`btn-danger`);
         $("#submit").addClass(`btn-primary`);
